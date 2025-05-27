@@ -8,6 +8,7 @@
 
     prettierd
 
+    fourmolu
     stylua
     nixfmt-rfc-style
     rustfmt
@@ -49,19 +50,27 @@
         nix = [ "nixfmt" ];
         rust = [ "rustfmt" ];
         python = [ "ruff_format" ];
-        haskell = [ "stylish-haskell" ];
+        haskell = [
+          "fourmolu"
+          "stylish-haskell"
+        ];
         tex = [ "latexindent" ];
+
         json = [ "fixjson" ];
         yaml = [ "yamlfmt" ];
 
-        # markdown, javascript and json work well with prettierd
-        "_" = [ "prettierd" ];
+        javascript = [ "prettierd" ];
+        typescript = [ "prettierd" ];
+        css = [ "prettierd" ];
+        scss = [ "prettierd" ];
+        html = [ "prettierd" ];
+        markdown = [ "prettierd" ];
 
-        # "_" = [
-        #   "squeeze_blanks"
-        #   "trim_whitespace"
-        #   "trim_newlines"
-        # ];
+        "_" = [
+          "squeeze_blanks"
+          "trim_whitespace"
+          "trim_newlines"
+        ];
       };
       formatters = {
         # shellcheck = {

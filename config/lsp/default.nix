@@ -94,9 +94,12 @@
       jsonls.enable = true;
       yamlls.enable = true;
 
-      volar.enable = true; # Vue
       cssls.enable = true; # CSS
-      ts_ls.enable = true; # Typescript
+      html.enable = true;
+      ts_ls.enable = true; # Javascript, Typescript
+      volar.enable = true; # Vue
+
+      marksman.enable = true; # Markdown
 
       nixd.enable = true; # Nix
 
