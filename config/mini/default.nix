@@ -31,7 +31,11 @@ in
         footer = "";
       };
 
-      files = { };
+      files = {
+        mappings = {
+          synchronize = "ì"; # same position of the default value '=' on the italian keyboard
+        };
+      };
 
       # ... and there is more!
       # Check out: https://github.com/echasnovski/mini.nvim
