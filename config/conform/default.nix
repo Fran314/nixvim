@@ -16,6 +16,8 @@
     stylish-haskell
     texlivePackages.latexindent
 
+    typstyle
+
     fixjson
     yamlfmt
 
@@ -55,6 +57,7 @@
           "stylish-haskell"
         ];
         tex = [ "latexindent" ];
+        typst = [ "typstyle" ];
 
         json = [ "fixjson" ];
         yaml = [ "yamlfmt" ];

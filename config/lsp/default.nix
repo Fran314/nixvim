@@ -104,6 +104,7 @@
       nixd.enable = true; # Nix
 
       texlab.enable = true; # LaTeX
+      tinymist.enable = true; # Typst
     };
 
     keymaps = {
