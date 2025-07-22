@@ -28,6 +28,8 @@ and then import the default package in the system configuration, with
 ```nix
 {
   environment.systemPackages = [ inputs.nixvim.packages.${system}.default ];
+  # Alternatively, for minimal install
+  # environment.systemPackages = [ inputs.nixvim.packages.${system}.nvim-minimal ];
 
   # This is not necessary, but suggested
   environment.variables.EDITOR = "nvim";

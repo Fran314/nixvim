@@ -3,21 +3,21 @@
     treesitter = {
       enable = true;
 
-      # TODO: Don't think I need this as nixGrammars is true which should auto install these???
       settings = {
-        ensureInstalled = [
-          "bash"
-          "c"
-          "diff"
-          "html"
-          "lua"
-          "luadoc"
-          "markdown"
-          "markdown_inline"
-          "query"
-          "vim"
-          "vimdoc"
-        ];
+        # TODO: Don't think I need this as nixGrammars is true which should auto install these???
+        # ensureInstalled = [
+        #   "bash"
+        #   "c"
+        #   "diff"
+        #   "html"
+        #   "lua"
+        #   "luadoc"
+        #   "markdown"
+        #   "markdown_inline"
+        #   "query"
+        #   "vim"
+        #   "vimdoc"
+        # ];
 
         highlight = {
           enable = true;

@@ -94,13 +94,13 @@
       # 		desc = "[S]earch Recent Files ('.' for repeat)";
       # 	};
       # };
-      "<leader><leader>" = {
-        mode = "n";
-        action = "buffers";
-        options = {
-          desc = "[ ] Find existing buffers";
-        };
-      };
+      # "<leader><leader>" = {
+      #   mode = "n";
+      #   action = "buffers";
+      #   options = {
+      #     desc = "[ ] Find existing buffers";
+      #   };
+      # };
     };
     settings = {
       extensions.__raw = "{ ['ui-select'] = { require('telescope.themes').get_dropdown() } }";

@@ -1,124 +1,145 @@
-{ pkgs, lib, ... }:
-
 {
-  extraPackages = with pkgs; [
-    shellcheck
-    shellharden
-    shfmt
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
-    prettierd
+with lib;
 
-    fourmolu
-    stylua
-    nixfmt-rfc-style
-    rustfmt
-    ruff
-    stylish-haskell
-    texlivePackages.latexindent
+let
+  cfg = config.my.options.conform;
+in
+{
+  options.my.options.conform = {
+    full = mkEnableOption "";
+  };
 
-    typstyle
+  config = {
+    extraPackages =
+      with pkgs;
+      mkMerge [
+        [
+          shellcheck
+          shellharden
+          shfmt
 
-    fixjson
-    yamlfmt
+          prettierd
 
-    mdformat
-  ];
+          fixjson
+          yamlfmt
 
-  # Autoformat
-  # https://nix-community.github.io/nixvim/plugins/conform-nvim.html
-  plugins.conform-nvim = {
-    enable = true;
-    settings = {
-      notify_on_error = true;
-      # format_on_save = ''
-      #   function(bufnr)
-      #     -- Disable "format_on_save lsp_fallback" for lanuages that don't
-      #     -- have a well standardized coding style. You can add additional
-      #     -- lanuages here or re-enable it for the disabled ones.
-      #     local disable_filetypes = { c = true, cpp = true }
-      #     return {
-      #       timeout_ms = 500,
-      #       lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype]
-      #     }
-      #   end
-      # '';
-      formatters_by_ft = {
-        sh = [
-          "shellcheck"
-          "shellharden"
-          "shfmt"
-        ];
-        lua = [ "stylua" ];
-        nix = [ "nixfmt" ];
-        rust = [ "rustfmt" ];
-        python = [ "ruff_format" ];
-        haskell = [
-          "fourmolu"
-          "stylish-haskell"
-        ];
-        tex = [ "latexindent" ];
-        typst = [ "typstyle" ];
+          nixfmt-rfc-style
+        ]
 
-        json = [ "fixjson" ];
-        yaml = [ "yamlfmt" ];
+        (mkIf cfg.full [
+          fourmolu
+          stylua
+          rustfmt
+          ruff
+          stylish-haskell
+          texlivePackages.latexindent
+          typstyle
+        ])
+      ];
 
-        javascript = [ "prettierd" ];
-        typescript = [ "prettierd" ];
-        css = [ "prettierd" ];
-        scss = [ "prettierd" ];
-        html = [ "prettierd" ];
-        markdown = [ "prettierd" ];
-
-        "_" = [
-          "squeeze_blanks"
-          "trim_whitespace"
-          "trim_newlines"
-        ];
-      };
-      formatters = {
-        # shellcheck = {
-        #   command = lib.getExe pkgs.shellcheck;
-        # };
-        # shfmt = {
-        #   command = lib.getExe pkgs.shfmt;
-        # };
-        # shellharden = {
-        #   command = lib.getExe pkgs.shellharden;
-        # };
-        prettierd = {
-          env = {
-            PRETTIERD_DEFAULT_CONFIG = ./config/.prettierrc.json;
-          };
-        };
-        latexindent = {
-          args = [
-            "-m"
-            "-y"
-            "modifyLineBreaks:textWrapOptions:columns:80"
+    # Autoformat
+    # https://nix-community.github.io/nixvim/plugins/conform-nvim.html
+    plugins.conform-nvim = {
+      enable = true;
+      settings = {
+        notify_on_error = true;
+        # format_on_save = ''
+        #   function(bufnr)
+        #     -- Disable "format_on_save lsp_fallback" for lanuages that don't
+        #     -- have a well standardized coding style. You can add additional
+        #     -- lanuages here or re-enable it for the disabled ones.
+        #     local disable_filetypes = { c = true, cpp = true }
+        #     return {
+        #       timeout_ms = 500,
+        #       lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype]
+        #     }
+        #   end
+        # '';
+        formatters_by_ft = {
+          sh = [
+            "shellcheck"
+            "shellharden"
+            "shfmt"
           ];
+          nix = [ "nixfmt" ];
+
+          "_" = [
+            "squeeze_blanks"
+            "trim_whitespace"
+            "trim_newlines"
+          ];
+
+          json = [ "fixjson" ];
+          yaml = [ "yamlfmt" ];
+
+          javascript = [ "prettierd" ];
+          typescript = [ "prettierd" ];
+          css = [ "prettierd" ];
+          scss = [ "prettierd" ];
+          html = [ "prettierd" ];
+          markdown = [ "prettierd" ];
+
+          lua = [ "stylua" ];
+          rust = [ "rustfmt" ];
+          python = [ "ruff_format" ];
+          haskell = [
+            "fourmolu"
+            "stylish-haskell"
+          ];
+          tex = [ "latexindent" ];
+          typst = [ "typstyle" ];
         };
-        squeeze_blanks = {
-          command = lib.getExe' pkgs.coreutils "cat";
+        formatters = {
+          # shellcheck = {
+          #   command = lib.getExe pkgs.shellcheck;
+          # };
+          # shfmt = {
+          #   command = lib.getExe pkgs.shfmt;
+          # };
+          # shellharden = {
+          #   command = lib.getExe pkgs.shellharden;
+          # };
+          prettierd = {
+            env = {
+              PRETTIERD_DEFAULT_CONFIG = ./config/.prettierrc.json;
+            };
+          };
+          latexindent = {
+            args = [
+              "-m"
+              "-y"
+              "modifyLineBreaks:textWrapOptions:columns:80"
+            ];
+          };
+          squeeze_blanks = {
+            command = lib.getExe' pkgs.coreutils "cat";
+          };
         };
       };
     };
-  };
 
-  # https://nix-community.github.io/nixvim/keymaps/index.html
-  keymaps = [
-    {
-      mode = "";
-      key = "<leader>f";
-      action.__raw = # Lua
-        ''
-          function()
-              require('conform').format { async = false, lsp_fallback = true }
-              vim.cmd.w()
-          end
-        '';
-      options = {
-        desc = "[F]ormat buffer";
-      };
-    }
-  ];
+    # https://nix-community.github.io/nixvim/keymaps/index.html
+    keymaps = [
+      {
+        mode = "";
+        key = "<leader>f";
+        action.__raw = # Lua
+          ''
+            function()
+                require('conform').format { async = false, lsp_fallback = true }
+                vim.cmd.w()
+            end
+          '';
+        options = {
+          desc = "[F]ormat buffer";
+        };
+      }
+    ];
+  };
 }

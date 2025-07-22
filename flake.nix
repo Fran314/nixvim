@@ -21,27 +21,21 @@
       perSystem =
         { system, ... }:
         let
-          nixvimLib = nixvim.lib.${system};
-          nixvim' = nixvim.legacyPackages.${system};
-          nixvimModule = {
-            inherit system; # or alternatively, set `pkgs`
-            module = import ./config; # import the module directly
-            # You can use `extraSpecialArgs` to pass additional arguments to your module files
-            extraSpecialArgs = {
-              # inherit (inputs) foo;
-            };
-          };
-          nvim = nixvim'.makeNixvimWithModule nixvimModule;
-        in
-        {
-          checks = {
-            # Run `nix flake check .` to verify that your config is not broken
-            default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
+          nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+            inherit system;
+            module = import ./config;
           };
 
+          nvim-minimal = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+            inherit system;
+            module = import ./config/minimal.nix;
+          };
+
+        in
+        {
           packages = {
-            # Lets you run `nix run .` to start nixvim
             default = nvim;
+            inherit nvim-minimal;
           };
         };
     };
