@@ -148,6 +148,13 @@ in
 
     comment.enable = true;
 
+    neoscroll = {
+      enable = true;
+      settings = {
+        duration_multiplier = 0.5;
+      };
+    };
+
     # Detect tabstop and shiftwidth automatically
     # https://nix-community.github.io/nixvim/plugins/sleuth/index.html
     sleuth.enable = true;
