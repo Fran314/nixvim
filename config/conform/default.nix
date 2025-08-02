@@ -132,7 +132,7 @@ in
         action.__raw = # Lua
           ''
             function()
-                require('conform').format { async = false, lsp_fallback = true }
+                require('conform').format { async = false, lsp_format = "prefer" }
                 vim.cmd.w()
             end
           '';
