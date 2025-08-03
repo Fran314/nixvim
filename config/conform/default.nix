@@ -132,7 +132,25 @@ in
         action.__raw = # Lua
           ''
             function()
-                require('conform').format { async = false, lsp_format = "prefer" }
+                local prefer_lsp = { 'vue' }
+                local filetype = vim.bo.filetype
+
+                local function contains(tbl, val)
+                  for _, v in ipairs(tbl) do
+                    if v == val then
+                      return true
+                    end
+                  end
+                  return false
+                end
+
+                local lsp_format
+                if contains(prefer_lsp, filetype) then
+                  lsp_format = "prefer"
+                else
+                  lsp_format = "never"
+                end
+                require('conform').format { async = false, lsp_format = lsp_format }
                 vim.cmd.w()
             end
           '';
