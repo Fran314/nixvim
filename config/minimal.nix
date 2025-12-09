@@ -7,6 +7,16 @@
 
 let
   keymap = mode: key: action: [ { inherit mode key action; } ];
+  keymapOpt = mode: key: action: options: [
+    {
+      inherit
+        mode
+        key
+        action
+        options
+        ;
+    }
+  ];
   keymaps =
     modes: key: action:
     map (mode: { inherit mode key action; }) modes;
@@ -180,6 +190,16 @@ in
     # Set un/wrap
     (keymap "n" "<leader>ww" "<cmd>set wrap<CR>")
     (keymap "n" "<leader>wn" "<cmd>set nowrap<CR>")
+
+    # Better movement with word wrap, see https://stackoverflow.com/a/21000307
+    (keymapOpt "n" "j" "v:count == 0 ? 'gj' : 'j'" {
+      expr = true;
+      silent = true;
+    })
+    (keymapOpt "n" "k" "v:count == 0 ? 'gk' : 'k'" {
+      expr = true;
+      silent = true;
+    })
   ];
 
   extraConfigLuaPost = ''
