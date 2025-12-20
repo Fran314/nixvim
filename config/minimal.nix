@@ -178,6 +178,7 @@ in
     # Better search
     (keymap "n" "n" "nzzzv")
     (keymap "n" "N" "Nzzzv")
+    (keymap "x" "/" "<Esc>/\\%V")
 
     (keymap "n" "<leader>e" { __raw = "vim.diagnostic.open_float"; })
 
