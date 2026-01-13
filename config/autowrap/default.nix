@@ -13,6 +13,7 @@
       pattern = [
         "*.md"
         "*.tex"
+        "*.typ"
       ];
       group = "autowrap";
       command = "setlocal wrap";
