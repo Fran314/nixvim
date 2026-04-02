@@ -40,6 +40,8 @@ in
           stylish-haskell
           texlivePackages.latexindent
           typstyle
+
+          ktfmt
         ])
       ];
 
@@ -77,6 +79,8 @@ in
 
           json = [ "fixjson" ];
           yaml = [ "yamlfmt" ];
+
+          kotlin = [ "ktfmt" ];
 
           javascript = [ "prettierd" ];
           typescript = [ "prettierd" ];

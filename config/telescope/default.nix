@@ -108,10 +108,6 @@
         file_ignore_patterns = [
           ".git/"
           "node_modules/"
-          "dist/"
-          "logs/"
-          "output/"
-          "data/"
           "__pycache__/"
         ];
       };
