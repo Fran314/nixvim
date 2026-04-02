@@ -106,6 +106,22 @@ in
           };
         };
 
+        # # Too heavy to be used
+        # kotlin_language_server = {
+        #   enable = cfg.full;
+        #
+        #   extraOptions = {
+        #     handlers = {
+        #       # Never run diagnostics as the environment is too complicated to be properly diagnosed.
+        #       # Rely on gradlew checks and compilations for diagnostics
+        #       # Use kotlin_language_server only for formatting
+        #       "textDocument/publishDiagnostics" = {
+        #         __raw = "function() end";
+        #       };
+        #     };
+        #   };
+        # };
+
         jsonls.enable = true;
         yamlls.enable = true;
 

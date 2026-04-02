@@ -154,7 +154,15 @@ in
                 else
                   lsp_format = "never"
                 end
-                require('conform').format { async = false, lsp_format = lsp_format }
+
+                local timeout_ms
+                if filetype == "kotlin" then
+                  timeout_ms = 10000
+                else
+                  timeout_ms = 1000
+                end
+
+                require('conform').format { async = false, lsp_format = lsp_format, timeout_ms = timeout_ms }
                 vim.cmd.w()
             end
           '';
