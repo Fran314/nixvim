@@ -19,8 +19,8 @@ in
   keymaps = lib.mkMerge [
     (keymaps [ "n" "i" ] "<C-h>" "<cmd>BufferPrevious<CR>")
     (keymaps [ "n" "i" ] "<C-l>" "<cmd>BufferNext<CR>")
-    (keymaps [ "n" "i" ] "<C-S-h>" "<cmd>BufferMovePrevious<CR>")
-    (keymaps [ "n" "i" ] "<C-S-l>" "<cmd>BufferMoveNext<CR>")
-    (keymaps [ "n" "i" ] "<C-S-j>" "<cmd>BufferClose<CR>")
+    (keymaps [ "n" "i" ] "<C-A-h>" "<cmd>BufferMovePrevious<CR>")
+    (keymaps [ "n" "i" ] "<C-A-l>" "<cmd>BufferMoveNext<CR>")
+    (keymaps [ "n" "i" ] "<C-A-j>" "<cmd>BufferClose<CR>")
   ];
 }
