@@ -44,6 +44,6 @@ in
 
   keymaps = lib.mkMerge [
     (keymap "n" "à" "<cmd>lua MiniFiles.open()<CR>")
-    (keymap "n" "<C-à>" "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>")
+    (keymap "n" "°" "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>")
   ];
 }
