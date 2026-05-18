@@ -110,6 +110,35 @@
           "node_modules/"
           "__pycache__/"
         ];
+        mappings.__raw = ''
+          (function()
+            local open_selected = function(prompt_bufnr)
+              local actions = require('telescope.actions')
+              local action_state = require('telescope.actions.state')
+              local picker = action_state.get_current_picker(prompt_bufnr)
+              local multi = picker:get_multi_selection()
+              if vim.tbl_isempty(multi) then
+                actions.select_default(prompt_bufnr)
+              else
+                actions.close(prompt_bufnr)
+                for _, entry in ipairs(multi) do
+                  local path = entry.path or entry.filename or entry.value
+                  if path then
+                    local cmd = 'edit '
+                    if entry.lnum then
+                      cmd = cmd .. '+' .. entry.lnum .. ' '
+                    end
+                    vim.cmd(cmd .. vim.fn.fnameescape(path))
+                  end
+                end
+              end
+            end
+            return {
+              i = { ["<CR>"] = open_selected },
+              n = { ["<CR>"] = open_selected },
+            }
+          end)()
+        '';
       };
     };
   };
