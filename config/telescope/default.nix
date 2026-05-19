@@ -104,6 +104,10 @@
     };
     settings = {
       extensions.__raw = "{ ['ui-select'] = { require('telescope.themes').get_dropdown() } }";
+      pickers = {
+        find_files.hidden = true;
+        live_grep.additional_args.__raw = "function() return { '--hidden' } end";
+      };
       defaults = {
         file_ignore_patterns = [
           ".git/"
