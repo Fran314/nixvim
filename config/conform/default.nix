@@ -29,6 +29,14 @@ in
           fixjson
           yamlfmt
 
+          (python3.withPackages (ps: [
+            ps.mdformat
+            ps.mdformat-gfm
+            ps.mdformat-myst
+            ps.mdformat-frontmatter
+            ps.mdformat-footnote
+          ]))
+
           nixfmt-rfc-style
         ]
 
@@ -87,7 +95,7 @@ in
           css = [ "prettierd" ];
           scss = [ "prettierd" ];
           html = [ "prettierd" ];
-          markdown = [ "prettierd" ];
+          markdown = [ "mdformat" ];
 
           lua = [ "stylua" ];
           rust = [ "rustfmt" ];
