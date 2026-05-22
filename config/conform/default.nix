@@ -122,6 +122,12 @@ in
               PRETTIERD_DEFAULT_CONFIG = ./config/.prettierrc.json;
             };
           };
+          mdformat = {
+            # without this flag, entries of numbered lists have the number
+            # always overwritten to "1.". This is intended behaviour of
+            # mdformat and is disabled with this flag
+            prepend_args = [ "--number" ];
+          };
           latexindent = {
             args = [
               "-m"
