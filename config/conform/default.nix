@@ -9,6 +9,23 @@ with lib;
 
 let
   cfg = config.my.options.conform;
+
+  # Vendored from https://github.com/livinNector/mdformat-dollarmath (MIT,
+  # v0.0.5). Teaches mdformat to recognise $...$ and $$...$$ as math and
+  # leave them unescaped.
+  mdformat-dollarmath = pkgs.python3Packages.buildPythonPackage {
+    pname = "mdformat_dollarmath";
+    version = "0.0.5";
+    format = "pyproject";
+    src = ./mdformat_dollarmath;
+    nativeBuildInputs = with pkgs.python3Packages; [ flit-core ];
+    propagatedBuildInputs = with pkgs.python3Packages; [
+      mdformat
+      mdit-py-plugins
+    ];
+    pythonImportsCheck = [ "mdformat_dollarmath" ];
+    doCheck = false;
+  };
 in
 {
   options.my.options.conform = {
@@ -35,6 +52,7 @@ in
             ps.mdformat-myst
             ps.mdformat-frontmatter
             ps.mdformat-footnote
+            mdformat-dollarmath
           ]))
 
           nixfmt-rfc-style
