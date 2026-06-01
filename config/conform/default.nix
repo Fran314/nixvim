@@ -26,6 +26,22 @@ let
     pythonImportsCheck = [ "mdformat_dollarmath" ];
     doCheck = false;
   };
+
+  mdformatEnv = pkgs.python3.withPackages (ps: [
+    ps.mdformat
+    ps.mdformat-gfm
+    ps.mdformat-frontmatter
+    ps.mdformat-footnote
+    mdformat-dollarmath
+  ]);
+
+  # mdformat's --wrap destroys VitePress "::: name" container fences. mdwrap
+  # protects the fence lines, wraps the rest with mdformat, then restores them.
+  mdwrap = pkgs.writeShellApplication {
+    name = "mdwrap";
+    runtimeInputs = [ mdformatEnv ];
+    text = ''exec python3 ${./mdwrap.py} "$@"'';
+  };
 in
 {
   options.my.options.conform = {
@@ -46,14 +62,7 @@ in
           fixjson
           yamlfmt
 
-          (python3.withPackages (ps: [
-            ps.mdformat
-            ps.mdformat-gfm
-            ps.mdformat-myst
-            ps.mdformat-frontmatter
-            ps.mdformat-footnote
-            mdformat-dollarmath
-          ]))
+          mdwrap
 
           nixfmt-rfc-style
         ]
@@ -113,7 +122,7 @@ in
           css = [ "prettierd" ];
           scss = [ "prettierd" ];
           html = [ "prettierd" ];
-          markdown = [ "mdformat" ];
+          markdown = [ "mdwrap" ];
 
           lua = [ "stylua" ];
           rust = [ "rustfmt" ];
@@ -140,11 +149,8 @@ in
               PRETTIERD_DEFAULT_CONFIG = ./config/.prettierrc.json;
             };
           };
-          mdformat = {
-            # without this flag, entries of numbered lists have the number
-            # always overwritten to "1.". This is intended behaviour of
-            # mdformat and is disabled with this flag
-            prepend_args = [ "--number" ];
+          mdwrap = {
+            command = lib.getExe mdwrap;
           };
           latexindent = {
             args = [
