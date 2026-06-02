@@ -10,12 +10,31 @@ with lib;
 let
   cfg = config.my.options.conform;
 
+  # Vendored from https://github.com/livinNector/mdformat-dollarmath (MIT,
+  # v0.0.5). Teaches mdformat to recognise $...$ and $$...$$ as math and leave
+  # them unescaped. The upstream mdformat<0.8.0 pin is relaxed locally; the
+  # plugin works unchanged against mdformat 1.0.
+  mdformat-dollarmath = pkgs.python3Packages.buildPythonPackage {
+    pname = "mdformat_dollarmath";
+    version = "0.0.5";
+    format = "pyproject";
+    src = ./mdformat_dollarmath;
+    nativeBuildInputs = with pkgs.python3Packages; [ flit-core ];
+    propagatedBuildInputs = with pkgs.python3Packages; [
+      mdformat
+      mdit-py-plugins
+    ];
+    pythonImportsCheck = [ "mdformat_dollarmath" ];
+    doCheck = false;
+  };
+
   mdformatEnv = pkgs.python3.withPackages (ps: [
     ps.mdformat
     ps.mdformat-gfm
     ps.mdformat-gfm-alerts
     ps.mdformat-frontmatter
     ps.mdformat-footnote
+    mdformat-dollarmath
   ]);
 
   # mdformat's --wrap destroys VitePress "::: name" container fences. mdwrap
