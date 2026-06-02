@@ -21,13 +21,24 @@
       perSystem =
         { system, ... }:
         let
-          nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+          # barbar.nvim carries the JSON license, which nixpkgs marks unfree.
+          # Re-import nixvim's own nixpkgs (same revision) with a predicate that
+          # allows just that one package. Setting allowUnfree on the pkgs passed
+          # to makeNixvimWithModule is the working approach; see
+          # https://github.com/nix-community/nixvim/issues/2147
+          pkgs = import nixvim.inputs.nixpkgs {
             inherit system;
+            config.allowUnfreePredicate =
+              pkg: builtins.elem (nixvim.inputs.nixpkgs.lib.getName pkg) [ "barbar.nvim" ];
+          };
+
+          nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+            inherit pkgs system;
             module = import ./config;
           };
 
           nvim-minimal = nixvim.legacyPackages.${system}.makeNixvimWithModule {
-            inherit system;
+            inherit pkgs system;
             module = import ./config/minimal.nix;
           };
 
