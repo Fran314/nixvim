@@ -16,16 +16,6 @@ in
   };
 
   config = {
-    # Dependencies
-    # { 'Bilal2453/luvit-meta', lazy = true },
-    #
-    #
-    # Allows extra capabilities providied by nvim-cmp
-    # https://nix-community.github.io/nixvim/plugins/cmp-nvim-lsp.html
-    plugins.cmp-nvim-lsp = {
-      enable = true;
-    };
-
     # Useful status updates for LSP.
     # https://nix-community.github.io/nixvim/plugins/fidget/index.html
     plugins.fidget = {
@@ -237,15 +227,6 @@ in
           };
         };
       };
-
-      # LSP servers and clients are able to communicate to each other what features they support.
-      #  By default, Neovim doesn't support everything that is in the LSP specification.
-      #  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      #  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      # NOTE: This is done automatically by Nixvim when enabling cmp-nvim-lsp below is an example if you did want to add new capabilities
-      #capabilities = ''
-      #  capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-      #'';
 
       # This function gets run when an LSP attaches to a particular buffer.
       #   That is to say, every time a new file is opened that is associated with

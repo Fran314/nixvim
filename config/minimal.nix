@@ -33,7 +33,7 @@ in
     ./telescope
     ./lsp
     ./conform
-    ./nvim-cmp
+    ./blink-cmp
     ./treesitter
   ];
 
