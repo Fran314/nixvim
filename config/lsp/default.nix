@@ -118,7 +118,7 @@ in
         cssls.enable = cfg.full; # CSS
         html.enable = cfg.full;
         ts_ls.enable = cfg.full; # Javascript, Typescript
-        volar.enable = cfg.full; # Vue
+        vue_ls.enable = cfg.full; # Vue
 
         marksman.enable = true; # Markdown
 
