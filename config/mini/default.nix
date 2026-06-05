@@ -35,10 +35,24 @@ in
         mappings = {
           synchronize = "ì"; # same position of the default value '=' on the italian keyboard
         };
+        content.filter.__raw = ''
+          function(fs_entry)
+            local hidden = {
+              ".git", ".svn", ".hg",
+              "node_modules", ".direnv", ".venv", "venv", "__pycache__", ".bundle", "vendor",
+              "dist", "build", "target", "out", ".next", ".nuxt", "result",
+              ".cache", ".mypy_cache", ".pytest_cache", ".ruff_cache", ".turbo", ".parcel-cache",
+              ".idea", ".vscode", ".DS_Store",
+            }
+            local patterns = { "%.pyc$", "%.o$" }
+            if vim.tbl_contains(hidden, fs_entry.name) then return false end
+            for _, p in ipairs(patterns) do
+              if fs_entry.name:match(p) then return false end
+            end
+            return true
+          end
+        '';
       };
-
-      # ... and there is more!
-      # Check out: https://github.com/echasnovski/mini.nvim
     };
   };
 
